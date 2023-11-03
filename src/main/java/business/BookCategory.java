@@ -1,5 +1,7 @@
 package business;
 
+import java.util.Objects;
+
 /**
  * @author Mercy
  */
@@ -50,7 +52,18 @@ public class BookCategory {
         this.category_id = category_id;
     }
 
-    //Nothing to compare for equal
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BookCategory that = (BookCategory) o;
+        return id == that.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 
     @Override
     public String toString() {
