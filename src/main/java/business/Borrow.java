@@ -13,9 +13,9 @@ public class Borrow {
     private LocalDate issued_date;
     private LocalDate due_date;
     private LocalDate return_date;
-    private double fine;
+    private int fine;
 
-    public Borrow(int id, int user_id, int book_id, LocalDate issued_date, LocalDate due_date, LocalDate return_date, double fine) {
+    public Borrow(int id, int user_id, int book_id, LocalDate issued_date, LocalDate due_date, LocalDate return_date, int fine) {
         this.id = id;
         this.user_id = user_id;
         this.book_id = book_id;
@@ -77,7 +77,7 @@ public class Borrow {
         return fine;
     }
 
-    public void setFine(double fine) {
+    public void setFine(int fine) {
         this.fine = fine;
     }
 
