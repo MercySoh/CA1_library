@@ -53,7 +53,6 @@ public interface BorrowDaoInterface {
      *
      * @param user_id the user ID supplied of the individual who holds the loans
      *
-     *
      * @return A List containing a history of User Loans
      */
     List<Borrow> getAllLoansByUserID(int user_id);
@@ -77,7 +76,7 @@ public interface BorrowDaoInterface {
      * @param user_id the user ID supplied of the individual who has borrowed the book
      * @param book_id the book ID supplied of the book which has been borrowed
      *
-     * @void
+     * @void, there is no return
      */
     void imposeLateFee(int user_id,int book_id);
 }
