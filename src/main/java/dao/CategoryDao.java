@@ -1,12 +1,11 @@
 package dao;
 
+import business.Book;
 import business.Category;
 import exceptions.DaoException;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CategoryDao extends Dao implements CategoryDaoInterface{
@@ -56,7 +55,42 @@ public class CategoryDao extends Dao implements CategoryDaoInterface{
 
     @Override
     public List<Category> getAllCategory() throws DaoException {
-        return null;
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        List<Category> categories = new ArrayList<Category>();
+
+        try{
+            con = getConnection();
+
+            String query = "Select * from category";
+            ps = con.prepareStatement(query);
+            rs = ps.executeQuery();
+
+            while(rs.next())
+            {
+                Category c = new Category(rs.getInt("id"), rs.getString("Category name"));
+                categories.add(c);
+            }
+        }catch (SQLException e) {
+            System.out.println("Exception occured in the getAllCategory() method: " + e.getMessage());
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (ps != null) {
+                    ps.close();
+                }
+                if (con != null) {
+                    freeConnection(con);
+                }
+            } catch (SQLException e) {
+                System.out.println("Exception occured in the finally section of the getAllCategory() method: " + e.getMessage());
+            }
+        }
+
+        return categories;
     }
 
     @Override
