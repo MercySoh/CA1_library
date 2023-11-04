@@ -41,18 +41,17 @@ public class Category {
         this.category_name = category_name;
     }
 
-    //Compare category_name is equal or not
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Category category = (Category) o;
-        return Objects.equals(category_name, category.category_name);
+        return id == category.id;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(category_name);
+        return Objects.hash(id);
     }
 
     @Override
