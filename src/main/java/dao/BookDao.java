@@ -211,4 +211,84 @@ public class BookDao extends Dao implements BookDaoInterface  {
 
         return rowsAffected;
     }
+
+    @Override
+    public boolean deleteBook(int bookId) throws DaoException {
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        boolean deleted = false;
+        try {
+            con = getConnection();
+
+            String command = "DELETE FROM book WHERE ID=?";
+            ps = con.prepareStatement(command);
+            ps.setInt(1, bookId);
+
+            int rowsAffected = ps.executeUpdate();
+            if(rowsAffected < 0){
+                deleted = true;
+            }
+
+        } catch (SQLException e) {
+            throw new DaoException("deleteBook: " + e.getMessage());
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (ps != null) {
+                    ps.close();
+                }
+                if (con != null) {
+                    freeConnection(con);
+                }
+            } catch (SQLException e) {
+                throw new DaoException("deleteBook(): " + e.getMessage());
+            }
+        }
+        return deleted;
+    }
+
+    @Override
+    public Book getBookById(int bookId) throws DaoException {
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Book b = null;
+
+        try{
+            con = getConnection();
+
+            String query = "Select * from book where id = ?";
+            ps = con.prepareStatement(query);
+            ps.setInt(1, bookId);
+            //verify(ps).setString(1,"6");
+            rs = ps.executeQuery();
+
+            if(rs.next())
+            {
+                b = new Book(rs.getInt("id"), rs.getString("title"), rs.getString("author"), rs.getInt("ISBN"), rs.getDate("publication_date"), rs.getInt("qty"), rs.getString("description"), rs.getInt("copy_qty"));
+            }
+        }catch (SQLException e) {
+            System.out.println("Exception occured in the getBookById() method: " + e.getMessage());
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (ps != null) {
+                    ps.close();
+                }
+                if (con != null) {
+                    freeConnection(con);
+                }
+            } catch (SQLException e) {
+                System.out.println("Exception occured in the finally section of the getBookById() method: " + e.getMessage());
+            }
+        }
+        return b;
+    }
+
+
 }

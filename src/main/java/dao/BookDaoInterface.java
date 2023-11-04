@@ -17,4 +17,8 @@ public interface BookDaoInterface {
 
     public int decreaseCopyStock(int decreaseAmount, String title) throws DaoException;
 
+    public boolean deleteBook(int bookId) throws DaoException;
+
+    public Book getBookById(int bookId) throws DaoException;
+
 }
