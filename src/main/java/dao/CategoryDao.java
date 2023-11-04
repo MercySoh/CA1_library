@@ -69,7 +69,7 @@ public class CategoryDao extends Dao implements CategoryDaoInterface{
 
             while(rs.next())
             {
-                Category c = new Category(rs.getInt("id"), rs.getString("Category name"));
+                Category c = new Category(rs.getInt("id"), rs.getString("category_name"));
                 categories.add(c);
             }
         }catch (SQLException e) {
