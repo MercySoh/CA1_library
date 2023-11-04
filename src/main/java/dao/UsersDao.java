@@ -77,6 +77,13 @@ public class UsersDao extends Dao implements UsersDaoInterface {
         return usersList;
     }
 
+    /**
+     * This method will allow the search for a user using a
+     * user_id variable
+     *
+     * @param user_id the user ID supplied of the individual
+     * @return A User Object containing the user_id
+     */
     @Override
     public Users findUserByUserID(int user_id) {
         Connection con = null;
@@ -119,6 +126,22 @@ public class UsersDao extends Dao implements UsersDaoInterface {
         return u;
     }
 
+
+    /**
+     * This method will the User to register to the library
+     * application, using the INSERT query and the users id will
+     * be returned indicating if successful or not
+     *
+     * @param name     the users name
+     * @param email    the users email
+     * @param username the users unique username
+     * @param password the users password which will be hashed and salted
+     * @param phone    the users phone number
+     * @param address  the users address
+     * @param city     the users city
+     * @param postcode the users postcode
+     * @return the Users unique id which will indicate that registration is successful
+     */
     @Override
     public int userRegister(String name, String email, String username, String password, String phone, String address, String city, String postcode) {
 
@@ -182,6 +205,14 @@ public class UsersDao extends Dao implements UsersDaoInterface {
         return newId;
     }
 
+    /**
+     * This method will allow the user to log in to the application
+     *
+     * @param email    the user ID supplied of the individual
+     * @param password the user ID supplied of the individual
+     * @return A Users Object indicating that the user has logged on
+     * it would be null if they weren't able to
+     */
     @Override
     public Users checkLogin(String email, String password) {
         Users u = null;
@@ -223,7 +254,7 @@ public class UsersDao extends Dao implements UsersDaoInterface {
                     }
 
                 }
-            }catch (SQLException e) {
+            } catch (SQLException e) {
                 System.err.println("\tA problem occurred during the checkLogin method:");
                 System.err.println("\t" + e.getMessage());
             } finally {
@@ -242,129 +273,156 @@ public class UsersDao extends Dao implements UsersDaoInterface {
                 }
             }
         }
-            return u;
-        }
-
-        @Override
-        public boolean usernameCheck(String username) {
-            boolean isPresent = false;
-            Connection con = null;
-            PreparedStatement ps = null;
-            ResultSet rs = null;
-            try {
-                con = this.getConnection();
-                String query = "SELECT * from users where username=? ";
-                ps = con.prepareStatement(query);
-                ps.setString(1, username);
-
-                rs = ps.executeQuery();
-
-                if (rs.next()) {
-                    int count=rs.getInt(1);
-                    isPresent =count>0;
-                }
-
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
-                System.out.println("	A problem occurred during the duplicateUsername method:");
-            } finally {
-                try {
-                    if (rs != null) {
-                        rs.close();
-                    }
-                    if (ps != null) {
-                        ps.close();
-                    }
-                    if (con != null) {
-                        freeConnection(con);
-                    }
-                } catch (SQLException e) {
-                    System.err.println("A problem occurred when closing down the duplicateUsername() method");
-                    System.out.println(e.getMessage());
-                }
-            }
-            return isPresent;
-        }
-
-        @Override
-        public boolean emailCheck(String email) {
-            boolean isPresent = false;
-            Connection con = null;
-            PreparedStatement ps = null;
-            ResultSet rs = null;
-            try {
-                con = this.getConnection();
-                String query = "SELECT * from users where email=? ";
-                ps = con.prepareStatement(query);
-                ps.setString(1, email);
-
-                rs = ps.executeQuery();
-
-                if (rs.next()) {
-                    int count=rs.getInt(1);
-                    isPresent =count>0;
-
-                }
-
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
-                System.out.println("	A problem occurred during the duplicateEmail method:");
-            } finally {
-                try {
-                    if (rs != null) {
-                        rs.close();
-                    }
-                    if (ps != null) {
-                        ps.close();
-                    }
-                    if (con != null) {
-                        freeConnection(con);
-                    }
-                } catch (SQLException e) {
-                    System.err.println("A problem occurred when closing down the duplicateEmail() method");
-                    System.out.println(e.getMessage());
-                }
-            }
-            return isPresent;
-        }
-
-        @Override
-        public int deleteUser(int user_id) {
-            Connection con = null;
-            PreparedStatement ps = null;
-            int rows = 0;
-
-            try {
-                con = this.getConnection();
-
-                String query = "DELETE FROM users WHERE user_id = ?";
-                ps = con.prepareStatement(query);
-                ps.setInt(1, user_id);
-
-                rows = ps.executeUpdate();
-            } catch (SQLException e) {
-                System.err.println("\tA problem occurred during the deleteUser method:");
-                System.err.println("\t" + e.getMessage());
-            } finally {
-                try {
-                    if (ps != null) {
-                        ps.close();
-                    }
-                    if (con != null) {
-                        freeConnection(con);
-                    }
-                } catch (SQLException e) {
-                    System.err.println("A problem occurred when closing down the deleteUser method:\n" + e.getMessage());
-                }
-            }
-
-            if(rows==0){
-                System.err.println("No user_id :" + user_id+ "found");
-
-            }
-
-            return rows;
-        }
-
-
+        return u;
     }
+
+    /**
+     * This method will ensure if the username supplied is
+     * present or not
+     *
+     * @param username the users username unique to them
+     * @return true/false, depending on if the username is present or
+     * not
+     */
+    @Override
+    public boolean usernameCheck(String username) {
+        boolean isPresent = false;
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            con = this.getConnection();
+            String query = "SELECT * from users where username=? ";
+            ps = con.prepareStatement(query);
+            ps.setString(1, username);
+
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                int count = rs.getInt(1);
+                isPresent = count > 0;
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            System.out.println("	A problem occurred during the duplicateUsername method:");
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (ps != null) {
+                    ps.close();
+                }
+                if (con != null) {
+                    freeConnection(con);
+                }
+            } catch (SQLException e) {
+                System.err.println("A problem occurred when closing down the duplicateUsername() method");
+                System.out.println(e.getMessage());
+            }
+        }
+        return isPresent;
+    }
+
+    /**
+     * This method will ensure if the email supplied is
+     * present or not
+     *
+     * @param email the users email unique to them
+     *
+     * @return true/false, depending on if the email is present or
+     * not
+     */
+    @Override
+    public boolean emailCheck(String email) {
+        boolean isPresent = false;
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            con = this.getConnection();
+            String query = "SELECT * from users where email=? ";
+            ps = con.prepareStatement(query);
+            ps.setString(1, email);
+
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                int count = rs.getInt(1);
+                isPresent = count > 0;
+
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            System.out.println("	A problem occurred during the duplicateEmail method:");
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (ps != null) {
+                    ps.close();
+                }
+                if (con != null) {
+                    freeConnection(con);
+                }
+            } catch (SQLException e) {
+                System.err.println("A problem occurred when closing down the duplicateEmail() method");
+                System.out.println(e.getMessage());
+            }
+        }
+        return isPresent;
+    }
+
+
+    /**
+     * This method will allow a User Object to be deleted using
+     * the user_id
+     *
+     * @param user_id the user ID supplied of the individual
+     * to be deleted
+     *
+     * @return the row affected whether it was deleted or not
+     */
+    @Override
+    public int deleteUser(int user_id) {
+        Connection con = null;
+        PreparedStatement ps = null;
+        int rows = 0;
+
+        try {
+            con = this.getConnection();
+
+            String query = "DELETE FROM users WHERE user_id = ?";
+            ps = con.prepareStatement(query);
+            ps.setInt(1, user_id);
+
+            rows = ps.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println("\tA problem occurred during the deleteUser method:");
+            System.err.println("\t" + e.getMessage());
+        } finally {
+            try {
+                if (ps != null) {
+                    ps.close();
+                }
+                if (con != null) {
+                    freeConnection(con);
+                }
+            } catch (SQLException e) {
+                System.err.println("A problem occurred when closing down the deleteUser method:\n" + e.getMessage());
+            }
+        }
+
+        if (rows == 0) {
+            System.err.println("No user_id :" + user_id + "found");
+
+        }
+
+        return rows;
+    }
+
+
+}
