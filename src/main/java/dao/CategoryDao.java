@@ -134,7 +134,41 @@ public class CategoryDao extends Dao implements CategoryDaoInterface{
     }
 
     @Override
-    public boolean deleteCategory(int bookId) throws DaoException {
-        return false;
+    public boolean deleteCategory(int categoryId) throws DaoException {
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        boolean deleted = false;
+        try {
+            con = getConnection();
+
+            String command = "DELETE FROM category WHERE id = ? ";
+            ps = con.prepareStatement(command);
+            ps.setInt(1, categoryId);
+
+            int rowsAffected = ps.executeUpdate();
+            if(rowsAffected < 0){
+                deleted = true;
+            }
+
+        } catch (SQLException e) {
+            throw new DaoException("deleteCategory: " + e.getMessage());
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (ps != null) {
+                    ps.close();
+                }
+                if (con != null) {
+                    freeConnection(con);
+                }
+            } catch (SQLException e) {
+                throw new DaoException("deleteCategory(): " + e.getMessage());
+            }
+        }
+        return deleted;
     }
+
 }

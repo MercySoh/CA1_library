@@ -14,5 +14,5 @@ public interface CategoryDaoInterface {
 
     public Category getCategoryById(int categoryId) throws DaoException;
 
-    public boolean deleteCategory(int bookId) throws DaoException;
+    public boolean deleteCategory(int categoryId) throws DaoException;
 }
