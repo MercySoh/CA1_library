@@ -4,6 +4,10 @@ import java.util.Objects;
 
 import java.util.Objects;
 
+
+/**
+ * @author Julie, Conor
+ */
 public class Users {
     //Properties
     private int id;
@@ -19,23 +23,11 @@ public class Users {
     private int disabled;
     // Consructors
     /*public Users(){}*/
-    public Users(){
-        this.id = 0;
-        this.name = "";
-        this.email = "";
-        this.username = "";
-        this.password = "";
-        this.phone = 0;
-        this.address = "";
-        this.city = "";
-        this.postcode = "";
-        this.user_type = 0;
-        this.disabled = 0;
-    }
 
-    public Users(String name, String email, String username, String password,
+    public Users(int id,String name, String email, String username, String password,
                  int phone, String address, String city, String postcode,
                  int user_type, int disabled) {
+        this.id=id;
         this.name = name;
         this.email = email;
         this.username = username;
@@ -131,20 +123,54 @@ public class Users {
     // EQUALS AND HASHCODE METHODS
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Users users = (Users) o;
-        return id == users.id && Objects.equals(email, users.email);
+        if (this == o) {
+            return true;
+        }
+        if (o == null) {
+            return false;
+        }
+        if (getClass() != o.getClass()) {
+            return false;
+        }
+        final Users other = (Users) o;
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        if (!Objects.equals(this.username, other.username)) {
+            return false;
+        }
+        if (!Objects.equals(this.email, other.email)) {
+            return false;
+        }
+
+
+        return true;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, email);
+        int hash = 8;
+        hash = 90 * hash + Objects.hashCode(this.id);
+        hash = 90 * hash + Objects.hashCode(this.username);
+        hash = 90 * hash + Objects.hashCode(this.email);
+        return hash;
     }
 
-
-
-
-
+    @Override
+    public String toString() {
+        return "Users{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", phone=" + phone +
+                ", address='" + address + '\'' +
+                ", city='" + city + '\'' +
+                ", postcode='" + postcode + '\'' +
+                ", user_type=" + user_type +
+                ", disabled=" + disabled +
+                '}';
+    }
 }
 
