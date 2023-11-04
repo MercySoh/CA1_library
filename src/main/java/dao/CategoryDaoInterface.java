@@ -12,5 +12,7 @@ public interface CategoryDaoInterface {
 
     public List<Category> getAllCategory() throws DaoException;
 
+    public Category getCategoryById(int categoryId) throws DaoException;
 
+    public boolean deleteCategory(int bookId) throws DaoException;
 }

@@ -53,7 +53,7 @@ public class BookDao extends Dao implements BookDaoInterface  {
                     freeConnection(con);
                 }
             } catch (SQLException e) {
-                System.out.println("Exception occurred in the finally section of the addOrder() method: \n\t" +  e.getMessage());
+                System.out.println("Exception occurred in the finally section of the addBook() method: \n\t" +  e.getMessage());
             }
         }
         return added;
