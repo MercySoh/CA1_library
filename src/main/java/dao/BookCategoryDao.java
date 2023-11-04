@@ -2,6 +2,7 @@ package dao;
 
 import business.Book;
 import business.BookCategory;
+import business.Category;
 import exceptions.DaoException;
 
 import java.sql.*;
@@ -97,7 +98,42 @@ public class BookCategoryDao extends Dao implements BookCategoryDaoInterface{
 
     @Override
     public BookCategory getBookCategoryByBookId(int bookId) throws DaoException {
-        return null;
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        BookCategory bc = null;
+
+        try{
+            con = getConnection();
+
+            String query = "Select * from bookcategory where book_id = ?";
+            ps = con.prepareStatement(query);
+            ps.setInt(1, bookId);
+            //verify(ps).setString(1,"6");
+            rs = ps.executeQuery();
+
+            if(rs.next())
+            {
+                bc = new BookCategory(rs.getInt("id"), rs.getInt("book_id"), rs.getInt("category_id"));
+            }
+        }catch (SQLException e) {
+            System.out.println("Exception occured in the getBookCategoryByBookId() method: " + e.getMessage());
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (ps != null) {
+                    ps.close();
+                }
+                if (con != null) {
+                    freeConnection(con);
+                }
+            } catch (SQLException e) {
+                System.out.println("Exception occured in the finally section of the getBookCategoryByBookId() method: " + e.getMessage());
+            }
+        }
+        return bc;
     }
 
     @Override
