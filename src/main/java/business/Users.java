@@ -15,7 +15,7 @@ public class Users {
     private String email;
     private String username;
     private String  password;
-    private int  phone;
+    private String  phone;
     private String  address;
     private String  city;
     private String  postcode;
@@ -25,7 +25,7 @@ public class Users {
     /*public Users(){}*/
 
     public Users(int id,String name, String email, String username, String password,
-                 int phone, String address, String city, String postcode,
+                 String phone, String address, String city, String postcode,
                  int user_type, int disabled) {
         this.id=id;
         this.name = name;
@@ -73,11 +73,11 @@ public class Users {
         this.password = password;
     }
 
-    public int getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(int phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 
