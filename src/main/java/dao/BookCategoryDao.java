@@ -138,7 +138,42 @@ public class BookCategoryDao extends Dao implements BookCategoryDaoInterface{
 
     @Override
     public BookCategory getBookCategoryByCategoryId(int categoryId) throws DaoException {
-        return null;
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        BookCategory bc = null;
+
+        try{
+            con = getConnection();
+
+            String query = "Select * from bookcategory where category_id = ?";
+            ps = con.prepareStatement(query);
+            ps.setInt(1, categoryId);
+            //verify(ps).setString(1,"1");
+            rs = ps.executeQuery();
+
+            if(rs.next())
+            {
+                bc = new BookCategory(rs.getInt("id"), rs.getInt("book_id"), rs.getInt("category_id"));
+            }
+        }catch (SQLException e) {
+            System.out.println("Exception occured in the getBookCategoryByCategoryId() method: " + e.getMessage());
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (ps != null) {
+                    ps.close();
+                }
+                if (con != null) {
+                    freeConnection(con);
+                }
+            } catch (SQLException e) {
+                System.out.println("Exception occured in the finally section of the getBookCategoryByCategoryId() method: " + e.getMessage());
+            }
+        }
+        return bc;
     }
 
     @Override
