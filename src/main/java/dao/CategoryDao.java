@@ -95,7 +95,42 @@ public class CategoryDao extends Dao implements CategoryDaoInterface{
 
     @Override
     public Category getCategoryById(int categoryId) throws DaoException {
-        return null;
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Category c = null;
+
+        try{
+            con = getConnection();
+
+            String query = "Select * from category where id = ?";
+            ps = con.prepareStatement(query);
+            ps.setInt(1, categoryId);
+            //verify(ps).setString(1,"2");
+            rs = ps.executeQuery();
+
+            if(rs.next())
+            {
+                c = new Category(rs.getInt("id"), rs.getString("category_name"));
+            }
+        }catch (SQLException e) {
+            System.out.println("Exception occured in the getCategoryById() method: " + e.getMessage());
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (ps != null) {
+                    ps.close();
+                }
+                if (con != null) {
+                    freeConnection(con);
+                }
+            } catch (SQLException e) {
+                System.out.println("Exception occured in the finally section of the getCategoryById() method: " + e.getMessage());
+            }
+        }
+        return c;
     }
 
     @Override
