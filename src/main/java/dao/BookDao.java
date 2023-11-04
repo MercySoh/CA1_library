@@ -102,7 +102,42 @@ public class BookDao extends Dao implements BookDaoInterface  {
 
     @Override
     public Book getBookByTitle(String title) throws DaoException {
-        return null;
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Book b = null;
+
+        try{
+            con = getConnection();
+
+            String query = "Select * from book where title = ?";
+            ps = con.prepareStatement(query);
+            ps.setString(1, title);
+            //verify(ps).setString(1,"Look Inside Food");
+            rs = ps.executeQuery();
+
+            if(rs.next())
+            {
+                b = new Book(rs.getInt("id"), rs.getString("title"), rs.getString("author"), rs.getInt("ISBN"), rs.getDate("publication_date"), rs.getInt("qty"), rs.getString("description"), rs.getInt("copy_qty"));
+            }
+        }catch (SQLException e) {
+            System.out.println("Exception occured in the getBookByTitle() method: " + e.getMessage());
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (ps != null) {
+                    ps.close();
+                }
+                if (con != null) {
+                    freeConnection(con);
+                }
+            } catch (SQLException e) {
+                System.out.println("Exception occured in the finally section of the getBookByTitle() method: " + e.getMessage());
+            }
+        }
+        return b;
     }
 
     @Override
