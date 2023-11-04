@@ -178,6 +178,39 @@ public class BookCategoryDao extends Dao implements BookCategoryDaoInterface{
 
     @Override
     public boolean deleteBookCategory(int bookId) throws DaoException {
-        return false;
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        boolean deleted = false;
+        try {
+            con = getConnection();
+
+            String command = "DELETE FROM bookcategory WHERE book_id = ? ";
+            ps = con.prepareStatement(command);
+            ps.setInt(1, bookId);
+
+            int rowsAffected = ps.executeUpdate();
+            if(rowsAffected < 0){
+                deleted = true;
+            }
+
+        } catch (SQLException e) {
+            throw new DaoException("deleteBookCategory: " + e.getMessage());
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (ps != null) {
+                    ps.close();
+                }
+                if (con != null) {
+                    freeConnection(con);
+                }
+            } catch (SQLException e) {
+                throw new DaoException("deleteBookCategory(): " + e.getMessage());
+            }
+        }
+        return deleted;
     }
 }
