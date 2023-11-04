@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class usersDao extends Dao implements UsersDaoInterface {
+public class UsersDao extends Dao implements UsersDaoInterface {
 
         public List<Users> findAllUsers() {
             Connection con = null;
