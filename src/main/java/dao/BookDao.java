@@ -178,6 +178,37 @@ public class BookDao extends Dao implements BookDaoInterface  {
 
     @Override
     public int decreaseCopyStock(int decreaseAmount, String title) throws DaoException {
-        return 0;
+        Connection con = null;
+        PreparedStatement ps = null;
+        int rowsAffected = 0;
+
+        try{
+            con = getConnection();
+
+            String query = "UPDATE Book SET copy_qty = copy_qty - ? WHERE title = ?";
+
+            ps = con.prepareStatement(query);
+            ps.setInt(1, decreaseAmount);
+            ps.setString(2, title);
+
+            rowsAffected = ps.executeUpdate();
+
+        }catch (SQLException e) {
+            System.out.println("Exception occured in the decreaseCopyStock() method: " + e.getMessage());
+        } finally {
+            try {
+                if (ps != null) {
+                    ps.close();
+                }
+                if (con != null) {
+                    freeConnection(con);
+                }
+            } catch (SQLException e) {
+                System.out.println("Exception occured in the finally section of the decreaseCopyStock() method");
+                e.getMessage();
+            }
+        }
+
+        return rowsAffected;
     }
 }
