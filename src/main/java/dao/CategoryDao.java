@@ -26,7 +26,7 @@ public class CategoryDao extends Dao implements CategoryDaoInterface{
 
             ps = con.prepareStatement(query);
 
-            //ps.setInt(1, newbook.getId());
+            //ps.setInt(1, newCategory.getId());
             ps.setString(2, newCategory.getCategory_name());
 
             int rowsAffected = ps.executeUpdate();
@@ -69,7 +69,7 @@ public class CategoryDao extends Dao implements CategoryDaoInterface{
 
             while(rs.next())
             {
-                Category c = new Category(rs.getInt("id"), rs.getString("Category name"));
+                Category c = new Category(rs.getInt("id"), rs.getString("category_name"));
                 categories.add(c);
             }
         }catch (SQLException e) {
