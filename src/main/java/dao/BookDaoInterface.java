@@ -13,8 +13,8 @@ public interface BookDaoInterface {
 
     public Book getBookByTitle(String title) throws DaoException;
 
-    public int increaseCopyStock(int increaseAmount) throws DaoException;
+    public int increaseCopyStock(int increaseAmount, String title) throws DaoException;
 
-    public int decreaseCopyStock(int decreaseAmount) throws DaoException;
+    public int decreaseCopyStock(int decreaseAmount, String title) throws DaoException;
 
 }
