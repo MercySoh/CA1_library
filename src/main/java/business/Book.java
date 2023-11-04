@@ -9,15 +9,16 @@ import java.util.Objects;
 
 public class Book {
     /*
-    CREATE TABLE `book` (
-            `id` int(20) NOT NULL,
+   CREATE TABLE `book` (
+  `id` int(20) NOT NULL,
   `title` varchar(255) NOT NULL,
   `author` varchar(255) NOT NULL,
   `ISBN` int(255) NOT NULL,
   `publication_date` date NOT NULL,
-            `qty` int(255) NOT NULL,
-  `description` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `qty` int(255) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  `copy_qty` int(255) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
      */
  private int id;
@@ -27,11 +28,12 @@ public class Book {
  private Date publication_date;
  private int qty;
  private String description;
+ private int copy_qty;
 
     public Book() {
     }
 
-    public Book(int id, String title, String author, int ISBN, Date publication_date, int qty, String description) {
+    public Book(int id, String title, String author, int ISBN, Date publication_date, int qty, String description,int copy_qty) {
         this.id = id;
         this.title = title;
         this.author = author;
@@ -39,6 +41,7 @@ public class Book {
         this.publication_date = publication_date;
         this.qty = qty;
         this.description = description;
+        this.copy_qty = copy_qty;
     }
 
     public int getId() {
@@ -73,8 +76,8 @@ public class Book {
         this.ISBN = ISBN;
     }
 
-    public Date getPublication_date() {
-        return publication_date;
+    public java.sql.Date getPublication_date() {
+        return (java.sql.Date) publication_date;
     }
 
     public void setPublication_date(Date publication_date) {
@@ -97,8 +100,13 @@ public class Book {
         this.description = description;
     }
 
-    //Compare book title and author is equal or not
+    public int getCopy_qty() {
+        return copy_qty;
+    }
 
+    public void setCopy_qty(int copy_qty) {
+        this.copy_qty = copy_qty;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -123,6 +131,7 @@ public class Book {
                 ", publication_date=" + publication_date +
                 ", qty=" + qty +
                 ", description='" + description + '\'' +
+                ", copy_qty=" + copy_qty +
                 '}';
     }
 }
