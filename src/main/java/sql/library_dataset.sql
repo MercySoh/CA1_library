@@ -1,4 +1,4 @@
-use `testlibrary`;
+use `library`;
 
 INSERT INTO `users` (`id`, `name`, `email`, `username`, `password`, `phone`, `address`, `city`, `postcode`, `user_type`, `disable`)
 VALUES (1, 'Kelly Smith', 'kelly0202@gmail.com', 'Kelly', '$2a$10$ahgSm5ihnB6iruEuliMmoumx6Cd01/5oQK89vKYGvYnhXvZ3Vi8Ra', 881478956, '23 Andrew St', 'Dundalk', 'A94U1P4', 0, 0);

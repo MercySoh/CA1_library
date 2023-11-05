@@ -1,6 +1,6 @@
-drop database if exists `testlibrary`;
-create database `testlibrary`;
-use `testlibrary`;
+drop database if exists `library`;
+create database `library`;
+use `library`;
 
 DROP TABLE IF EXISTS users;
 CREATE TABLE `users` (

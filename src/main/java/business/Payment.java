@@ -10,12 +10,12 @@ public class Payment {
     private int id;
     private int user_id;
     private int book_id;
-    private double fine;
+    private int fine;
     private String card_number;
     private LocalDate expiry_date;
 
 
-    public Payment(int user_id, int book_id, double fine, String card_number, LocalDate expiry_date) {
+    public Payment(int id,int user_id, int book_id, int fine, String card_number, LocalDate expiry_date) {
         this.id = id;
         this.user_id = user_id;
         this.book_id = book_id;
@@ -52,7 +52,7 @@ public class Payment {
         return fine;
     }
 
-    public void setFine(double fine) {
+    public void setFine(int fine) {
         this.fine = fine;
     }
 
