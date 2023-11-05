@@ -111,11 +111,50 @@ public class BookDaoTest {
     }
 
     @Test
-    void increaseCopyStock() {
+    void increaseCopyStock() throws DaoException {
+        BookDao bookDao = new BookDao("testlibrary");
+        System.out.println("increaseCopyStock");
+        int numIncrease = 3;
+        String title = "Ginger Pig Christmas Cook Book";
+
+        int expResult = 1;
+        int result = bookDao.increaseCopyStock(numIncrease, title);
+
+        assertEquals(expResult, result);
+
+        if (expResult == result) {
+            Book expectedBook = new Book(3, "Ginger Pig Christmas Cook Book", "Tim Wilson", 1784729191, 2023 - 10 - 05, 3, "More than 80 delicious recipes for the perfect Christmas from acclaimed sustainable butcher Ginger Pig.", numIncrease
+            );
+
+            Book resultBook = bookDao.getBookByTitle(title);
+            assertEquals(resultBook, expectedBook);
+
+            bookDao.decreaseCopyStock(numIncrease, "Ginger Pig Christmas Cook Book");
+        }
     }
 
     @Test
-    void decreaseCopyStock() {
+    void decreaseCopyStock() throws DaoException {
+        BookDao bookDao = new BookDao("testlibrary");
+        System.out.println("decreaseCopyStock");
+        int numdecrease = 1;
+        String title = "Lonely Planet Eat Japan";
+
+        int expResult = 1;
+        int result = bookDao.decreaseCopyStock(numdecrease, title);
+
+        assertEquals(expResult, result);
+
+        if (expResult == result) {
+            Book expectedBook = new Book(5,"Lonely Planet Eat Japan", "Lonely Planet Food" ,1838690514,2021-05-14,3,"To help you feel prepared for the Japanese food scene we will cover how, when and where to eat, etiquette dos and do not, and what classic regional specialties are a must try.",numdecrease
+
+            );
+
+            Book resultBook = bookDao.getBookByTitle(title);
+            assertEquals(resultBook, expectedBook);
+
+            bookDao.increaseCopyStock(numdecrease, "Lonely Planet Eat Japan");
+        }
     }
 
     @Test
