@@ -3,11 +3,14 @@ package dao;
 import business.Book;
 import exceptions.DaoException;
 
+import java.util.Date;
 import java.util.List;
 
 public interface BookDaoInterface {
 
-    public boolean addBook(Book newbook) throws DaoException;
+    public int addBook(String title, String author, int ISBN, Date publication_date, int qty, String description, int copy_qty) throws DaoException;
+
+    public int addBook(Book newbook) throws DaoException;
 
     public List<Book> getAllBook() throws DaoException;
 

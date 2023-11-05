@@ -5,6 +5,7 @@ import exceptions.DaoException;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class BookDao extends Dao implements BookDaoInterface  {
@@ -13,51 +14,68 @@ public class BookDao extends Dao implements BookDaoInterface  {
 
 
     @Override
-    public boolean addBook(Book newbook) throws DaoException {
-
+    public int addBook(String title, String author, int ISBN, Date publication_date, int qty, String description, int copy_qty) throws DaoException {
         Connection con = null;
         PreparedStatement ps = null;
-        boolean added = false;
-
+        ResultSet generatedKeys = null;
+        int newId = -1;
         try {
-            con = getConnection();
+            con = this.getConnection();
 
-            String query = "INSERT INTO book VALUES (?, ?, ?, ?, ?, ?,?,?)";
+            String query = "INSERT INTO book(title,author,ISBN,publication_date,qty,description,copy_qty) VALUES (?, ?, ?, ?, ?, ?,?)";
 
-            ps = con.prepareStatement(query);
+            ps = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 
-            //ps.setInt(1, newbook.getId());
-            ps.setString(2, newbook.getTitle());
-            ps.setString(3, newbook.getAuthor());
-            ps.setInt(4, newbook.getISBN());
-            ps.setDate(5, newbook.getPublication_date());
-            ps.setInt(6, newbook.getQty());
-            ps.setString(7, newbook.getDescription());
-            ps.setInt(8,newbook.getCopy_qty());
+            ps.setString(1, title);
+            ps.setString(2, author);
+            ps.setInt(3, ISBN);
+            ps.setDate(4, (java.sql.Date) publication_date);
+            ps.setInt(5,qty);
+            ps.setString(6,description);
+            ps.setInt(7,copy_qty);
 
-            int rowsAffected = ps.executeUpdate();
-            if(rowsAffected > 0){
-                added = true;
-            }
-        }catch(SQLIntegrityConstraintViolationException e){
-            System.out.println("Integrity constraint failed in the addBook() method: " + e.getMessage());
-            added = false;
-        } catch (SQLException e) {
-            System.out.println("Exception occurred in the addBook() method: " + e.getMessage());
-        } finally {
-            try {
-                if (ps != null) {
-                    ps.close();
-                }
-                if (con != null) {
-                    freeConnection(con);
-                }
-            } catch (SQLException e) {
-                System.out.println("Exception occurred in the finally section of the addBook() method: \n\t" +  e.getMessage());
+            ps.executeUpdate();
+
+            generatedKeys = ps.getGeneratedKeys();
+
+            if(generatedKeys.next())
+            {
+                newId = generatedKeys.getInt(1);
             }
         }
-        return added;
+        catch (SQLException e)
+        {
+            System.err.println("\tA problem occurred during the addStockItem method:");
+            System.err.println("\t"+e.getMessage());
+            newId = -1;
+        }
+        finally
+        {
+            try
+            {
+                if(generatedKeys != null){
+                    generatedKeys.close();
+                }
+                if (ps != null)
+                {
+                    ps.close();
+                }
+                if (con != null)
+                {
+                    freeConnection(con);
+                }
+            }
+            catch (SQLException e)
+            {
+                System.err.println("A problem occurred when closing down the addBook method:\n" + e.getMessage());
+            }
+        }
+        return newId;
+    }
 
+    @Override
+    public int addBook(Book newbook) throws DaoException {
+        return addBook(newbook.getTitle(),newbook.getAuthor(),newbook.getISBN(),newbook.getPublication_date(),newbook.getQty(),newbook.getDescription(),newbook.getCopy_qty());
     }
 
     @Override
