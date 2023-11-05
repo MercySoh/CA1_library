@@ -31,9 +31,22 @@ public class Book {
  private int copy_qty;
 
     public Book() {
+        this.id = -1;
     }
 
-    public Book(int id, String title, String author, int ISBN, Date publication_date, int qty, String description,int copy_qty) {
+    public Book(String title, String author, int ISBN, Date publication_date, int qty, String description, int copy_qty) {
+
+        this.id = -1;
+        this.title = title;
+        this.author = author;
+        this.ISBN = ISBN;
+        this.publication_date = publication_date;
+        this.qty = qty;
+        this.description = description;
+        this.copy_qty = copy_qty;
+    }
+
+    public Book(int id, String title, String author, int ISBN, Date publication_date, int qty, String description, int copy_qty) {
         this.id = id;
         this.title = title;
         this.author = author;
