@@ -15,7 +15,7 @@ public class BorrowDaoTest {
 
     /**
      * This tests borrowing the book with no chance of failure
-     * Run into problems during the borrowBook test
+     * Run into problems during the borrowBook test.
      */
     @Test
     void bookBorrowTest1() throws DaoException {
