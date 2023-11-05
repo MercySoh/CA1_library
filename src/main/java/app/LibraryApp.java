@@ -1,5 +1,10 @@
 package app;
 
+import business.Book;
+import dao.BookDao;
+import exceptions.DaoException;
+
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -7,7 +12,7 @@ import java.util.Scanner;
  */
 public class LibraryApp {
 
-    public static void main(String[] args){
+    public static void main(String[] args) throws DaoException {
 
         System.out.println("Enter one of the following option");
         System.out.println("To Register type: 1");
@@ -40,5 +45,10 @@ public class LibraryApp {
             default:
                 System.out.println("Looking forward to the Weekend");
         }
+
+        System.out.println("All Book from library");
+        BookDao allBook = new BookDao("libraryca");
+        List<Book> allBook1 = allBook.getAllBook();
+
     }
 }
