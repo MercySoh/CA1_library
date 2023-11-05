@@ -1,11 +1,11 @@
 use `testlibrary`;
 
 INSERT INTO `users` (`id`, `name`, `email`, `username`, `password`, `phone`, `address`, `city`, `postcode`, `user_type`, `disable`)
-VALUES (1, 'Kelly Smith', 'kelly0202@gmail.com', 'Kelly', 'kelly@123', 881478956, '23 Andrew St', 'Dundalk', 'A94U1P4', 0, 0);
+VALUES (1, 'Kelly Smith', 'kelly0202@gmail.com', 'Kelly', '$2a$10$ahgSm5ihnB6iruEuliMmoumx6Cd01/5oQK89vKYGvYnhXvZ3Vi8Ra', 881478956, '23 Andrew St', 'Dundalk', 'A94U1P4', 0, 0);
 INSERT INTO `users` (`id`, `name`, `email`, `username`, `password`, `phone`, `address`, `city`, `postcode`, `user_type`, `disable`)
-VALUES (2, 'Jenny Ryan', 'Jennyryan@gmail.com', 'Jenny', '789Jenny!', 875123491, '8 Stephen Park', 'Dundalk', 'A97P0B6', 1, 0);
+VALUES (2, 'Jenny Ryan', 'Jennyryan@gmail.com', 'Jenny', '$2a$10$gCDIGPG0YwklrNdYkzqysuwqkfjfsEkMebkD.naVrbAYGHjWf.gEO', 875123491, '8 Stephen Park', 'Dundalk', 'A97P0B6', 1, 0);
 INSERT INTO `users` (`id`, `name`, `email`, `username`, `password`, `phone`, `address`, `city`, `postcode`, `user_type`, `disable`)
-VALUES(3, 'John Ferris', 'John67@gmail.com', 'John67', 'John670258!', 875984763, '39 Conner Road', 'Dundalk', 'A94 DU89', 0, 0);
+VALUES(3, 'John Ferris', 'John67@gmail.com', 'John67', '$2a$10$oczR6XWHI7kz8nHHoQbZxeGfsTynErnM9GAO9RkxPNDiHjlbWU5WK', 875984763, '39 Conner Road', 'Dundalk', 'A94 DU89', 0, 0);
 
 INSERT INTO `book` (`id`, `title`, `author`, `ISBN`, `publication_date`, `qty`, `description`, `copy_qty`)
 VALUES (1, 'The Bucket List: 1000 Adventures Big & Small (Bucket Lists)', ' Kath Stathers', 789332698, '2017-09-15', 5, 'With 1,000 adventures for all ages, its never too soon or too late to begin the things you have only dreamed of doing.', 0);
