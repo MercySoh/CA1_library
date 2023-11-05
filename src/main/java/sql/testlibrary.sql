@@ -4,12 +4,12 @@ use `testlibrary`;
 
 DROP TABLE IF EXISTS users;
 CREATE TABLE `users` (
-                         `id` int(5) NOT NULL,
+                         `id` int(5) NOT NULL AUTO_INCREMENT,
                          `name` varchar(100) NOT NULL,
                          `email` varchar(100) NOT NULL,
                          `username` varchar(15) NOT NULL,
                          `password` varchar(255) NOT NULL,
-                         `phone` int(10) NOT NULL,
+                         `phone` varchar(255) NOT NULL,
                          `address` varchar(200) NOT NULL,
                          `city` varchar(20) NOT NULL,
                          `postcode` varchar(20) NOT NULL,
@@ -23,7 +23,7 @@ CREATE TABLE `users` (
 
 DROP TABLE IF EXISTS book;
 CREATE TABLE `book` (
-                        `id` int(20) NOT NULL,
+                        `id` int(20) NOT NULL AUTO_INCREMENT,
                         `title` varchar(255) NOT NULL,
                         `author` varchar(255) NOT NULL,
                         `ISBN` int(255) NOT NULL,
@@ -36,14 +36,14 @@ CREATE TABLE `book` (
 
 DROP TABLE IF EXISTS category;
 CREATE TABLE `category` (
-                            `id` int(11) NOT NULL,
+                            `id` int(11) NOT NULL AUTO_INCREMENT,
                             `category_name` varchar(255) NOT NULL,
                             PRIMARY KEY  (id)
 );
 
 DROP TABLE IF EXISTS bookcategory;
 CREATE TABLE `bookcategory` (
-                                `id` int(255) NOT NULL,
+                                `id` int(255) NOT NULL AUTO_INCREMENT,
                                 `book_id` int(255) NOT NULL,
                                 `category_id` int(255) NOT NULL,
                                 PRIMARY KEY  (id),
@@ -53,7 +53,7 @@ CREATE TABLE `bookcategory` (
 
 DROP TABLE IF EXISTS borrow;
 CREATE TABLE `borrow` (
-                          `id` int(255) NOT NULL,
+                          `id` int(255) NOT NULL AUTO_INCREMENT,
                           `user_id` int(255) NOT NULL,
                           `book_id` int(255) NOT NULL,
                           `issued_date` date NOT NULL,
@@ -67,7 +67,7 @@ CREATE TABLE `borrow` (
 
 DROP TABLE IF EXISTS payment;
 CREATE TABLE `payment` (
-                           `id` int(255) NOT NULL,
+                           `id` int(255) NOT NULL AUTO_INCREMENT,
                            `user_id` int(255) NOT NULL,
                            `book_id` int(255) NOT NULL,
                            `fine` int(255) NOT NULL,

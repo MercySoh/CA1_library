@@ -41,7 +41,7 @@ public class BorrowDao extends Dao implements BorrowDaoInterface {
     public int bookBorrow(int user_id, int book_id) throws DaoException {
         // Checking to ensure there are no duplicate loans
         Book bk = bookDao.getBookById(book_id);
-        int quantityCheck = bk.getCopy_qty() - 1;
+        int quantityCheck = bk.getQty() - 1;
 
         if (quantityCheck < 0 || checkingDuplicateLoans(user_id, book_id)) {
             return 0;
@@ -51,7 +51,7 @@ public class BorrowDao extends Dao implements BorrowDaoInterface {
         ResultSet rs = null;
 
         // declaring the variable rowsAffected
-        int rowsAffected = 0;
+        int rowsAffected ;
 
         LocalDate issued_date = LocalDate.now();
 
@@ -88,7 +88,7 @@ public class BorrowDao extends Dao implements BorrowDaoInterface {
                     freeConnection(con);
                 }
             } catch (SQLException e) {
-                System.err.println("A problem occurred when closing down the addStockItem method:\n" + e.getMessage());
+                System.err.println("A problem occurred when closing down the bookBorrow method:\n" + e.getMessage());
             }
         }
         return rowsAffected;

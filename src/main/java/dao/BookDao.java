@@ -22,18 +22,18 @@ public class BookDao extends Dao implements BookDaoInterface  {
         try {
             con = getConnection();
 
-            String query = "INSERT INTO book VALUES (?, ?, ?, ?, ?, ?,?,?)";
+            String query = "INSERT INTO book VALUES (?, ?, ?, ?, ?, ?,?)";
 
             ps = con.prepareStatement(query);
 
             //ps.setInt(1, newbook.getId());
-            ps.setString(2, newbook.getTitle());
-            ps.setString(3, newbook.getAuthor());
-            ps.setInt(4, newbook.getISBN());
-            ps.setDate(5, newbook.getPublication_date());
-            ps.setInt(6, newbook.getQty());
-            ps.setString(7, newbook.getDescription());
-            ps.setInt(8,newbook.getCopy_qty());
+            ps.setString(1, newbook.getTitle());
+            ps.setString(2, newbook.getAuthor());
+            ps.setInt(3, newbook.getISBN());
+            ps.setDate(4, newbook.getPublication_date());
+            ps.setInt(5, newbook.getQty());
+            ps.setString(6, newbook.getDescription());
+            ps.setInt(7,newbook.getCopy_qty());
 
             int rowsAffected = ps.executeUpdate();
             if(rowsAffected > 0){
@@ -149,7 +149,7 @@ public class BookDao extends Dao implements BookDaoInterface  {
         try{
             con = getConnection();
 
-            String query = "UPDATE Book SET copy_qty = copy_qty + ? WHERE title = ?";
+            String query = "UPDATE Book SET qty = qty + ? WHERE title = ?";
 
             ps = con.prepareStatement(query);
             ps.setInt(1, increaseAmount);
@@ -185,7 +185,7 @@ public class BookDao extends Dao implements BookDaoInterface  {
         try{
             con = getConnection();
 
-            String query = "UPDATE Book SET copy_qty = copy_qty - ? WHERE title = ?";
+            String query = "UPDATE Book SET qty = qty - ? WHERE title = ?";
 
             ps = con.prepareStatement(query);
             ps.setInt(1, decreaseAmount);
