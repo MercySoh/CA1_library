@@ -3,11 +3,11 @@ package dao;
 import business.Users;
 import exceptions.DuplicationEmailException;
 import exceptions.DuplicationUsernameException;
-import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import org.mindrot.jbcrypt.BCrypt;
 
 /**
  * @author Julie, Conor

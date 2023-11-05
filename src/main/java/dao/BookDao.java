@@ -83,7 +83,7 @@ public class BookDao extends Dao implements BookDaoInterface  {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-        List<Book> products = new ArrayList<Book>();
+        List<Book> books = new ArrayList<Book>();
 
         try{
             con = getConnection();
@@ -95,7 +95,7 @@ public class BookDao extends Dao implements BookDaoInterface  {
             while(rs.next())
             {
                 Book b = new Book(rs.getInt("id"), rs.getString("title"), rs.getString("author"), rs.getInt("ISBN"), rs.getDate("publication_date"), rs.getInt("qty"), rs.getString("description"), rs.getInt("copy_qty"));
-                products.add(b);
+                books.add(b);
             }
         }catch (SQLException e) {
             System.out.println("Exception occured in the getAllBook() method: " + e.getMessage());
@@ -115,7 +115,7 @@ public class BookDao extends Dao implements BookDaoInterface  {
             }
         }
 
-        return products;
+        return books;
     }
 
     @Override
@@ -231,41 +231,46 @@ public class BookDao extends Dao implements BookDaoInterface  {
     }
 
     @Override
-    public boolean deleteBook(int bookId) throws DaoException {
+    public int deleteBook(int bookId) throws DaoException {
+
         Connection con = null;
         PreparedStatement ps = null;
-        ResultSet rs = null;
-        boolean deleted = false;
-        try {
-            con = getConnection();
+        int rowsAffected = 0;
 
-            String command = "DELETE FROM book WHERE ID=?";
-            ps = con.prepareStatement(command);
+        try {
+            con = this.getConnection();
+
+            String query = "DELETE FROM book WHERE id = ?";
+            ps = con.prepareStatement(query);
             ps.setInt(1, bookId);
 
-            int rowsAffected = ps.executeUpdate();
-            if(rowsAffected < 0){
-                deleted = true;
-            }
-
-        } catch (SQLException e) {
-            throw new DaoException("deleteBook: " + e.getMessage());
-        } finally {
-            try {
-                if (rs != null) {
-                    rs.close();
-                }
-                if (ps != null) {
+            rowsAffected = ps.executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            System.err.println("\tA problem occurred during the deleteBook method:");
+            System.err.println("\t"+e.getMessage());
+            rowsAffected = 0;
+        }
+        finally
+        {
+            try
+            {
+                if (ps != null)
+                {
                     ps.close();
                 }
-                if (con != null) {
+                if (con != null)
+                {
                     freeConnection(con);
                 }
-            } catch (SQLException e) {
-                throw new DaoException("deleteBook(): " + e.getMessage());
+            }
+            catch (SQLException e)
+            {
+                System.err.println("A problem occured when closing down the deleteBook method:\n" + e.getMessage());
             }
         }
-        return deleted;
+        return rowsAffected;
     }
 
     @Override
