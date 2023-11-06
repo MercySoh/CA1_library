@@ -7,6 +7,8 @@ import exceptions.DuplicationUsernameException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+//4 errors in this UserDao for Mercy is because didn't find library of BCrypt to import.
+//Mercy did added dependence in pom.xml.
 import org.mindrot.jbcrypt.BCrypt;
 
 /**
