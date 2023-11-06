@@ -6,10 +6,14 @@ import exceptions.DaoException;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+/**
+ * @author Mercy
+ */
 
 public class BookDaoTest {
 
@@ -175,7 +179,6 @@ public class BookDaoTest {
                 Book selectedBook = bookDao.getBookById(b.getId());
                 assertEquals(null, selectedBook);
 
-                // If the delete action was successful, add it back into the database again
                 if (selectedBook == null) {
                     bookDao.addBook(b);
                 }
