@@ -1,6 +1,5 @@
 package dao;
 
-import business.Book;
 import business.Category;
 import exceptions.DaoException;
 
@@ -13,46 +12,86 @@ public class CategoryDao extends Dao implements CategoryDaoInterface{
         super(databaseName);
     }
 
+    /**
+     * addCatergory(with 1args) method allows admin/staff to add a new catergory,
+     *
+     * @param catergory_name a string of new category's name
+     * @return new category id if added else return -1
+     * @throws DaoException if failure
+     */
     @Override
-    public boolean addCatergory(Category newCategory) throws DaoException {
+    public int addCatergory(String catergory_name) throws DaoException {
         Connection con = null;
         PreparedStatement ps = null;
-        boolean added = false;
-
+        ResultSet generatedKeys = null;
+        int newId = -1;
         try {
-            con = getConnection();
+            con = this.getConnection();
 
-            String query = "INSERT INTO category VALUES (?, ?)";
+            String query = "INSERT INTO category(category_name) VALUES (?)";
 
-            ps = con.prepareStatement(query);
+            ps = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 
-            //ps.setInt(1, newCategory.getId());
-            ps.setString(2, newCategory.getCategory_name());
+            ps.setString(1, catergory_name);
 
-            int rowsAffected = ps.executeUpdate();
-            if(rowsAffected > 0){
-                added = true;
-            }
-        }catch(SQLIntegrityConstraintViolationException e){
-            System.out.println("Integrity constraint failed in the addCategory() method: " + e.getMessage());
-            added = false;
-        } catch (SQLException e) {
-            System.out.println("Exception occurred in the addCategory() method: " + e.getMessage());
-        } finally {
-            try {
-                if (ps != null) {
-                    ps.close();
-                }
-                if (con != null) {
-                    freeConnection(con);
-                }
-            } catch (SQLException e) {
-                System.out.println("Exception occurred in the finally section of the addCategory() method: \n\t" +  e.getMessage());
+            ps.executeUpdate();
+
+            generatedKeys = ps.getGeneratedKeys();
+
+            if(generatedKeys.next())
+            {
+                newId = generatedKeys.getInt(1);
             }
         }
-        return added;
+        catch (SQLException e)
+        {
+            System.err.println("\tA problem occurred during the addCategory() method:");
+            System.err.println("\t"+e.getMessage());
+            newId = -1;
+        }
+        finally
+        {
+            try
+            {
+                if(generatedKeys != null){
+                    generatedKeys.close();
+                }
+                if (ps != null)
+                {
+                    ps.close();
+                }
+                if (con != null)
+                {
+                    freeConnection(con);
+                }
+            }
+            catch (SQLException e)
+            {
+                System.err.println("A problem occurred when closing down the addCategory()" +
+                        " method:\n" + e.getMessage());
+            }
+        }
+        return newId;
     }
 
+    /**
+     * addCatergory(Category newCategory) method allows admin/staff to add a new catergory,
+     *
+     * @param newCategory the new <code>Category</code> to be added
+     * @return new category id if added else return -1
+     * @throws DaoException if failure
+     */
+    @Override
+    public int addCatergory(Category newCategory) throws DaoException {
+        return addCatergory(newCategory.getCategory_name());
+    }
+
+    /**
+     * getAllCategory method return a list of all category in library,
+     *
+     * @return a list of all category in library
+     * @throws DaoException if failure
+     */
     @Override
     public List<Category> getAllCategory() throws DaoException {
         Connection con = null;
@@ -93,6 +132,13 @@ public class CategoryDao extends Dao implements CategoryDaoInterface{
         return categories;
     }
 
+    /**
+     * getCategoryById method return the category that match the category id,
+     *
+     * @param categoryId an int of category's id to find
+     * @return Category that match the category's id else return null if not found
+     * @throws DaoException if failure
+     */
     @Override
     public Category getCategoryById(int categoryId) throws DaoException {
         Connection con = null;
@@ -133,42 +179,50 @@ public class CategoryDao extends Dao implements CategoryDaoInterface{
         return c;
     }
 
+    /**
+     * deleteCategory method delete a category by category's id from the library.
+     * @param categoryId an int of category's id to be deleted.
+     * @return 1 if deleted else return 0.
+     */
     @Override
-    public boolean deleteCategory(int categoryId) throws DaoException {
+    public int deleteCategory(int categoryId) throws DaoException {
         Connection con = null;
         PreparedStatement ps = null;
-        ResultSet rs = null;
-        boolean deleted = false;
-        try {
-            con = getConnection();
+        int rowsAffected = 0;
 
-            String command = "DELETE FROM category WHERE id = ? ";
-            ps = con.prepareStatement(command);
+        try {
+            con = this.getConnection();
+
+            String query = "DELETE FROM category WHERE id = ?";
+            ps = con.prepareStatement(query);
             ps.setInt(1, categoryId);
 
-            int rowsAffected = ps.executeUpdate();
-            if(rowsAffected < 0){
-                deleted = true;
-            }
-
-        } catch (SQLException e) {
-            throw new DaoException("deleteCategory: " + e.getMessage());
-        } finally {
-            try {
-                if (rs != null) {
-                    rs.close();
-                }
-                if (ps != null) {
+            rowsAffected = ps.executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            throw new DaoException("A problem occurred during the deleteCategory() method:" + e.getMessage());
+        }
+        finally
+        {
+            try
+            {
+                if (ps != null)
+                {
                     ps.close();
                 }
-                if (con != null) {
+                if (con != null)
+                {
                     freeConnection(con);
                 }
-            } catch (SQLException e) {
-                throw new DaoException("deleteCategory(): " + e.getMessage());
+            }
+            catch (SQLException e)
+            {
+                throw new DaoException("A problem occurred during the deleteCategory() method:" + e.getMessage());
             }
         }
-        return deleted;
+        return rowsAffected;
     }
+
 
 }

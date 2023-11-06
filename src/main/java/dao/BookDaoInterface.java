@@ -77,6 +77,7 @@ public interface BookDaoInterface {
      * deleteBook method delete a book by book's id from the library.
      * @param bookId an int of book's id to be deleted.
      * @return 1 if deleted else return 0.
+     * @throws DaoException if failure
      */
     public int deleteBook(int bookId) throws DaoException;
 

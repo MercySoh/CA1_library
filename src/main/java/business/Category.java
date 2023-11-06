@@ -18,6 +18,12 @@ public class Category {
     private String category_name;
 
     public Category() {
+        this.id = -1;
+    }
+
+    public Category(String category_name) {
+        this.id = -1;
+        this.category_name = category_name;
     }
 
     public Category(int id, String category_name) {

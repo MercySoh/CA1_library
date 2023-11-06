@@ -60,7 +60,7 @@ public class BookDao extends Dao implements BookDaoInterface  {
         }
         catch (SQLException e)
         {
-            System.err.println("\tA problem occurred during the addStockItem method:");
+            System.err.println("\tA problem occurred during the addBook() method:");
             System.err.println("\t"+e.getMessage());
             newId = -1;
         }
@@ -82,7 +82,7 @@ public class BookDao extends Dao implements BookDaoInterface  {
             }
             catch (SQLException e)
             {
-                System.err.println("A problem occurred when closing down the addBook method:\n" + e.getMessage());
+                System.err.println("A problem occurred when closing down the addBook() method:\n" + e.getMessage());
             }
         }
         return newId;
