@@ -6,13 +6,21 @@ import exceptions.DaoException;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/**
+ * @author Mercy
+ */
+
+// 6 errors in this BookDaoTest is all about date type of published_date data from SQL
 public class BookDaoTest {
 
+    /**
+     * Test of addBook_7args() method, of class BookDao.
+     */
     @Test
     public void addBook_7args() throws DaoException {
         BookDao bookDao = new BookDao("testlibrary");
@@ -35,6 +43,9 @@ public class BookDaoTest {
         }
     }
 
+    /**
+     * Test of addBook_7args_AddFail() method, of class BookDao.
+     */
     @Test
     public void addBook_7args_AddFail() throws DaoException {
         BookDao bookDao = new BookDao("testlibrary");
@@ -58,6 +69,10 @@ public class BookDaoTest {
             assertEquals(rowsDeleted, 0);
         }
     }
+
+    /**
+     * Test of addBook_Book() method, of class BookDao.
+     */
     @Test
     public void addBook_Book() throws DaoException {
         BookDao bookDao = new BookDao("testlibrary");
@@ -81,6 +96,9 @@ public class BookDaoTest {
         }
     }
 
+    /**
+     * Test of getAllBook() method, of class BookDao.
+     */
     @Test
     void getAllBook() throws DaoException {
         BookDao bookDao = new BookDao("testlibrary");
@@ -89,17 +107,24 @@ public class BookDaoTest {
         assertEquals(6, result.size());
     }
 
+    /**
+     * Test of getBookByTitle() method, of class BookDao.
+     */
     @Test
     void getBookByTitle() throws DaoException {
         BookDao bookDao = new BookDao("testlibrary");
         System.out.println("getBookByTitle");
         String title = "Look Inside Food";
+        //Date has error, but I think the format should be correct
         Book expResult = new Book(6,"Look Inside Food","Emily Bone",140958206,2015-06-01,3,"It is important for children to understand food - where it comes from, whats in it, and how it affects our bodies. ",3
         );
         Book result = bookDao.getBookByTitle(title);
         assertEquals(expResult, result);
     }
 
+    /**
+     * Test of getBookByTitle_NotFound() method, of class BookDao.
+     */
     @Test
     void getBookByTitle_NotFound() throws DaoException {
         BookDao bookDao = new BookDao("testlibrary");
@@ -110,6 +135,9 @@ public class BookDaoTest {
         assertEquals(expResult, result);
     }
 
+    /**
+     * Test of increaseCopyStock() method, of class BookDao.
+     */
     @Test
     void increaseCopyStock() throws DaoException {
         BookDao bookDao = new BookDao("testlibrary");
@@ -123,7 +151,8 @@ public class BookDaoTest {
         assertEquals(expResult, result);
 
         if (expResult == result) {
-            Book expectedBook = new Book(3, "Ginger Pig Christmas Cook Book", "Tim Wilson", 1784729191, 2023 - 10 - 05, 3, "More than 80 delicious recipes for the perfect Christmas from acclaimed sustainable butcher Ginger Pig.", numIncrease
+            //Date has error, but I think the format should be correct
+            Book expectedBook = new Book(3, "Ginger Pig Christmas Cook Book", "Tim Wilson", 1784729191, 2023-10-05, 3, "More than 80 delicious recipes for the perfect Christmas from acclaimed sustainable butcher Ginger Pig.", numIncrease
             );
 
             Book resultBook = bookDao.getBookByTitle(title);
@@ -133,34 +162,42 @@ public class BookDaoTest {
         }
     }
 
+    /**
+     * Test of decreaseCopyStock() method, of class BookDao.
+     */
     @Test
     void decreaseCopyStock() throws DaoException {
         BookDao bookDao = new BookDao("testlibrary");
         System.out.println("decreaseCopyStock");
-        int numdecrease = 1;
+        int numDecrease = 1;
         String title = "Lonely Planet Eat Japan";
 
         int expResult = 1;
-        int result = bookDao.decreaseCopyStock(numdecrease, title);
+        int result = bookDao.decreaseCopyStock(numDecrease, title);
 
         assertEquals(expResult, result);
 
         if (expResult == result) {
-            Book expectedBook = new Book(5,"Lonely Planet Eat Japan", "Lonely Planet Food" ,1838690514,2021-05-14,3,"To help you feel prepared for the Japanese food scene we will cover how, when and where to eat, etiquette dos and do not, and what classic regional specialties are a must try.",numdecrease
+            //Date has error, but I think the format should be correct
+            Book expectedBook = new Book(5,"Lonely Planet Eat Japan", "Lonely Planet Food" ,1838690514,2021-05-14,3,"To help you feel prepared for the Japanese food scene we will cover how, when and where to eat, etiquette dos and do not, and what classic regional specialties are a must try.",numDecrease
 
             );
 
             Book resultBook = bookDao.getBookByTitle(title);
             assertEquals(resultBook, expectedBook);
 
-            bookDao.increaseCopyStock(numdecrease, "Lonely Planet Eat Japan");
+            bookDao.increaseCopyStock(numDecrease, "Lonely Planet Eat Japan");
         }
     }
 
+    /**
+     * Test of deleteBook() method, of class BookDao.
+     */
     @Test
     public void deleteBook() throws DaoException {
             BookDao bookDao = new BookDao("testlibrary");
             System.out.println("deleteBookById");
+            //Date has error, but I think the format should be correct
             Book b = new Book(4,"The Little Book of Student Food", "Alastair Williams",1787830241,2019-08-08,3,"This pocket-sized collection of helpful guidance and satisfying recipes will help students eat well and affordably",0
             );
             int id = b.getId();
@@ -175,24 +212,30 @@ public class BookDaoTest {
                 Book selectedBook = bookDao.getBookById(b.getId());
                 assertEquals(null, selectedBook);
 
-                // If the delete action was successful, add it back into the database again
                 if (selectedBook == null) {
                     bookDao.addBook(b);
                 }
             }
     }
 
+    /**
+     * Test of getBookById() method, of class BookDao.
+     */
     @Test
     public void getBookById() throws DaoException {
         BookDao bookDao = new BookDao("testlibrary");
         System.out.println("getBookById");
         int id = 3;
+        //Date has error, but I think the format should be correct
         Book expResult = new Book(3,"Ginger Pig Christmas Cook Book","Tim Wilson" ,1784729191,2023-10-05,3,"More than 80 delicious recipes for the perfect Christmas from acclaimed sustainable butcher Ginger Pig.",0
 );
         Book result = bookDao.getBookById(id);
         assertEquals(expResult, result);
     }
 
+    /**
+     * Test of getBookById_NotFound() method, of class BookDao.
+     */
     @Test
     public void getBookById_NotFound() throws DaoException {
         BookDao bookDao = new BookDao("testlibrary");
