@@ -51,7 +51,7 @@ public class BorrowDao extends Dao implements BorrowDaoInterface {
         ResultSet rs = null;
 
         // declaring the variable rowsAffected
-        int rowsAffected ;
+        int rowsAffected = 0;
 
         LocalDate issued_date = LocalDate.now();
 
@@ -419,6 +419,56 @@ public class BorrowDao extends Dao implements BorrowDaoInterface {
                 System.out.println(e.getMessage());
             }
         }
+    }
+
+    /**
+     * This method will allow a Borrow Object to be deleted using
+     * the user_id and book_id for testing purposes
+     *
+     * @param user_id the user ID supplied of the laon
+     * to be deleted
+     * @param user_id the book ID supplied of the laon
+     * to be deleted
+     *
+     * @return the row affected whether it was deleted or not
+     */
+    @Override
+    public int deleteLoan(int user_id,int book_id) {
+        Connection con = null;
+        PreparedStatement ps = null;
+        int rows = 0;
+
+        try {
+            con = this.getConnection();
+
+            String query = "DELETE FROM borrow WHERE user_id = ? and book_id=?";
+            ps = con.prepareStatement(query);
+            ps.setInt(1, user_id);
+            ps.setInt(2, book_id);
+
+            rows = ps.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println("\tA problem occurred during the deleteUser method:");
+            System.err.println("\t" + e.getMessage());
+        } finally {
+            try {
+                if (ps != null) {
+                    ps.close();
+                }
+                if (con != null) {
+                    freeConnection(con);
+                }
+            } catch (SQLException e) {
+                System.err.println("A problem occurred when closing down the deleteUser method:\n" + e.getMessage());
+            }
+        }
+
+        if (rows == 0) {
+            System.err.println("No user_id :" + user_id + "found");
+
+        }
+
+        return rows;
     }
 
 }

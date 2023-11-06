@@ -74,4 +74,17 @@ public interface BorrowDaoInterface {
      * @void, there is no return
      */
     void imposeLateFee(int user_id, int book_id);
+
+    /**
+     * This method will allow a Borrow Object to be deleted using
+     * the user_id and book_id for testing purposes
+     *
+     * @param user_id the user ID supplied of the laon
+     * to be deleted
+     * @param user_id the book ID supplied of the laon
+     * to be deleted
+     *
+     * @return the row affected whether it was deleted or not
+     */
+    public int deleteLoan(int user_id,int book_id);
 }
