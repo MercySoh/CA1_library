@@ -7,6 +7,10 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Mercy
+ */
+
 public class BookCategoryDao extends Dao implements BookCategoryDaoInterface{
 
     public BookCategoryDao(String databaseName) {

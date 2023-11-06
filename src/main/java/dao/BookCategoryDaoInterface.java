@@ -5,6 +5,10 @@ import exceptions.DaoException;
 
 import java.util.List;
 
+/**
+ * @author Mercy
+ */
+
 public interface BookCategoryDaoInterface {
 
     /**
