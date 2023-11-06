@@ -60,9 +60,7 @@ public class BookDao extends Dao implements BookDaoInterface  {
         }
         catch (SQLException e)
         {
-            System.err.println("\tA problem occurred during the addBook() method:");
-            System.err.println("\t"+e.getMessage());
-            newId = -1;
+            throw new DaoException("\tA problem occurred during the addBook() method:" + "\t"+e.getMessage());
         }
         finally
         {
@@ -82,7 +80,7 @@ public class BookDao extends Dao implements BookDaoInterface  {
             }
             catch (SQLException e)
             {
-                System.err.println("A problem occurred when closing down the addBook() method:\n" + e.getMessage());
+                throw new DaoException("A problem occurred when closing down the addBook() method:\n" + e.getMessage());
             }
         }
         return newId;
@@ -126,7 +124,7 @@ public class BookDao extends Dao implements BookDaoInterface  {
                 books.add(b);
             }
         }catch (SQLException e) {
-            System.out.println("Exception occured in the getAllBook() method: " + e.getMessage());
+            throw new DaoException("Exception occured in the getAllBook() method: " + e.getMessage());
         } finally {
             try {
                 if (rs != null) {
@@ -139,7 +137,7 @@ public class BookDao extends Dao implements BookDaoInterface  {
                     freeConnection(con);
                 }
             } catch (SQLException e) {
-                System.out.println("Exception occured in the finally section of the getAllBook() method: " + e.getMessage());
+                throw new DaoException("Exception occured in the finally section of the getAllBook() method: " + e.getMessage());
             }
         }
 
@@ -174,7 +172,7 @@ public class BookDao extends Dao implements BookDaoInterface  {
                 b = new Book(rs.getInt("id"), rs.getString("title"), rs.getString("author"), rs.getInt("ISBN"), rs.getDate("publication_date"), rs.getInt("qty"), rs.getString("description"), rs.getInt("copy_qty"));
             }
         }catch (SQLException e) {
-            System.out.println("Exception occured in the getBookByTitle() method: " + e.getMessage());
+            throw new DaoException("Exception occured in the getBookByTitle() method: " + e.getMessage());
         } finally {
             try {
                 if (rs != null) {
@@ -187,7 +185,7 @@ public class BookDao extends Dao implements BookDaoInterface  {
                     freeConnection(con);
                 }
             } catch (SQLException e) {
-                System.out.println("Exception occured in the finally section of the getBookByTitle() method: " + e.getMessage());
+                throw new DaoException("Exception occured in the finally section of the getBookByTitle() method: " + e.getMessage());
             }
         }
         return b;
@@ -219,7 +217,7 @@ public class BookDao extends Dao implements BookDaoInterface  {
             rowsAffected = ps.executeUpdate();
 
         }catch (SQLException e) {
-            System.out.println("Exception occured in the increaseCopyStock() method: " + e.getMessage());
+            throw new DaoException("Exception occured in the increaseCopyStock() method: " + e.getMessage());
         } finally {
             try {
                 if (ps != null) {
@@ -229,8 +227,7 @@ public class BookDao extends Dao implements BookDaoInterface  {
                     freeConnection(con);
                 }
             } catch (SQLException e) {
-                System.out.println("Exception occured in the finally section of the increaseCopyStock() method");
-                e.getMessage();
+                throw new DaoException("Exception occured in the finally section of the increaseCopyStock() method" + e.getMessage());
             }
         }
 
@@ -263,7 +260,7 @@ public class BookDao extends Dao implements BookDaoInterface  {
             rowsAffected = ps.executeUpdate();
 
         }catch (SQLException e) {
-            System.out.println("Exception occured in the decreaseCopyStock() method: " + e.getMessage());
+            throw new DaoException("Exception occured in the decreaseCopyStock() method: " + e.getMessage());
         } finally {
             try {
                 if (ps != null) {
@@ -273,8 +270,7 @@ public class BookDao extends Dao implements BookDaoInterface  {
                     freeConnection(con);
                 }
             } catch (SQLException e) {
-                System.out.println("Exception occured in the finally section of the decreaseCopyStock() method");
-                e.getMessage();
+                throw new DaoException("Exception occured in the finally section of the decreaseCopyStock() method" + e.getMessage());
             }
         }
 
@@ -304,9 +300,7 @@ public class BookDao extends Dao implements BookDaoInterface  {
         }
         catch (SQLException e)
         {
-            System.err.println("\tA problem occurred during the deleteBook method:");
-            System.err.println("\t"+e.getMessage());
-            rowsAffected = 0;
+            throw new DaoException("\tA problem occurred during the deleteBook() method:" + "\t" + e.getMessage());
         }
         finally
         {
@@ -323,7 +317,7 @@ public class BookDao extends Dao implements BookDaoInterface  {
             }
             catch (SQLException e)
             {
-                System.err.println("A problem occured when closing down the deleteBook method:\n" + e.getMessage());
+                throw new DaoException("A problem occured when closing down the deleteBook() method:\n" + e.getMessage());
             }
         }
         return rowsAffected;
@@ -357,7 +351,7 @@ public class BookDao extends Dao implements BookDaoInterface  {
                 b = new Book(rs.getInt("id"), rs.getString("title"), rs.getString("author"), rs.getInt("ISBN"), rs.getDate("publication_date"), rs.getInt("qty"), rs.getString("description"), rs.getInt("copy_qty"));
             }
         }catch (SQLException e) {
-            System.out.println("Exception occured in the getBookById() method: " + e.getMessage());
+            throw new DaoException("Exception occured in the getBookById() method: " + e.getMessage());
         } finally {
             try {
                 if (rs != null) {
@@ -370,7 +364,7 @@ public class BookDao extends Dao implements BookDaoInterface  {
                     freeConnection(con);
                 }
             } catch (SQLException e) {
-                System.out.println("Exception occured in the finally section of the getBookById() method: " + e.getMessage());
+                throw new DaoException("Exception occured in the finally section of the getBookById() method: " + e.getMessage());
             }
         }
         return b;
