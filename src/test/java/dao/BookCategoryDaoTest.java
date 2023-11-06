@@ -23,9 +23,9 @@ public class BookCategoryDaoTest {
         BookCategoryDao bookcategoryDao = new BookCategoryDao("testlibrary");
         System.out.println("add bookCategory with 2 arguments");
         int bookId = 2;
-        int catId =9;
+        int catId = 9;
 
-        int result = bookcategoryDao.addBookCatergory(bookId,catId);
+        int result = bookcategoryDao.addBookCatergory(bookId, catId);
         assertTrue((result > 0));
 
         if (result != -1) {
@@ -43,8 +43,8 @@ public class BookCategoryDaoTest {
         BookCategoryDao bookcategoryDao = new BookCategoryDao("testlibrary");
         System.out.println("add bookCategory with 2 arguments");
         int bookId = 2;
-        int catId =9;
-        BookCategory bc = new BookCategory(bookId,catId);
+        int catId = 9;
+        BookCategory bc = new BookCategory(bookId, catId);
 
         int result = bookcategoryDao.addBookCatergory(bc);
         assertTrue((result > 0));
@@ -64,8 +64,8 @@ public class BookCategoryDaoTest {
         BookCategoryDao bookcategoryDao = new BookCategoryDao("testlibrary");
         System.out.println("add bookCategory with 2 arguments failed");
         int bookId = 2;
-        int catId =9;
-        BookCategory bc = new BookCategory(bookId,catId);
+        int catId = 9;
+        BookCategory bc = new BookCategory(bookId, catId);
 
         int expResult = -1;
         int result = bookcategoryDao.addBookCatergory(bc);
@@ -99,7 +99,7 @@ public class BookCategoryDaoTest {
         System.out.println("get BookCategory By Book Id");
         int bookId = 3;
 
-        BookCategory expResult = new BookCategory(3,6);
+        BookCategory expResult = new BookCategory(3, 6);
         BookCategory result = bookcategoryDao.getBookCategoryByBookId(bookId);
         assertEquals(expResult, result);
     }
@@ -127,7 +127,7 @@ public class BookCategoryDaoTest {
         System.out.println("get BookCategory By Category Id");
         int catId = 2;
 
-        BookCategory expResult = new BookCategory(2,2);
+        BookCategory expResult = new BookCategory(2, 2);
         BookCategory result = bookcategoryDao.getBookCategoryByCategoryId(catId);
         assertEquals(expResult, result);
     }
@@ -153,7 +153,7 @@ public class BookCategoryDaoTest {
     public void deleteBookCategory() throws DaoException {
         BookCategoryDao bookcategoryDao = new BookCategoryDao("testlibrary");
         System.out.println("delete BookCategory By Id");
-        BookCategory bc = new BookCategory(1,1);
+        BookCategory bc = new BookCategory(1, 1);
 
         int id = bc.getId();
         int expResult = 1;
@@ -170,5 +170,6 @@ public class BookCategoryDaoTest {
             if (selectedBookCategory == null) {
                 bookcategoryDao.addBookCatergory(bc);
             }
+        }
     }
 }
