@@ -8,7 +8,7 @@ import java.util.List;
 public interface CategoryDaoInterface {
 
     /**
-     * addCatergory(with 1args) method allows admin/staff to add a new catergory,
+     * addCatergory(with 1args) method allows admin/staff to add a new category,
      *
      * @param catergory_name a string of new category's name
      * @return new category id if added else return -1
@@ -17,13 +17,13 @@ public interface CategoryDaoInterface {
     public int addCatergory(String catergory_name) throws DaoException;
 
     /**
-     * addCatergory(Category newCategory) method allows admin/staff to add a new catergory,
+     * addCatergory(Category newCat) method allows admin/staff to add a new Category,
      *
-     * @param newCategory the new <code>Category</code> to be added
+     * @param newCat the new <code>Category</code> to be added
      * @return new category id if added else return -1
      * @throws DaoException if failure
      */
-    public int addCatergory(Category newCategory) throws DaoException;
+    public int addCatergory(Category newCat) throws DaoException;
 
     /**
      * getAllCategory method return a list of all category in library,

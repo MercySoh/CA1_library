@@ -1,4 +1,4 @@
-package test;
+package dao;
 
 import business.Book;
 import dao.BookDao;

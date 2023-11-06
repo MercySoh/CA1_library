@@ -76,15 +76,15 @@ public class CategoryDao extends Dao implements CategoryDaoInterface{
     }
 
     /**
-     * addCatergory(Category newCategory) method allows admin/staff to add a new catergory,
+     * addCatergory(Category newCat) method allows admin/staff to add a new Category,
      *
-     * @param newCategory the new <code>Category</code> to be added
+     * @param newCat the new <code>Category</code> to be added
      * @return new category id if added else return -1
      * @throws DaoException if failure
      */
     @Override
-    public int addCatergory(Category newCategory) throws DaoException {
-        return addCatergory(newCategory.getCategory_name());
+    public int addCatergory(Category newCat) throws DaoException {
+        return addCatergory(newCat.getCategory_name());
     }
 
     /**
