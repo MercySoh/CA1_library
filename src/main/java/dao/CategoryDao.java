@@ -7,6 +7,10 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Mercy
+ */
+
 public class CategoryDao extends Dao implements CategoryDaoInterface{
     public CategoryDao(String databaseName) {
         super(databaseName);
@@ -45,9 +49,7 @@ public class CategoryDao extends Dao implements CategoryDaoInterface{
         }
         catch (SQLException e)
         {
-            System.err.println("\tA problem occurred during the addCategory() method:");
-            System.err.println("\t"+e.getMessage());
-            newId = -1;
+            throw new DaoException("\tA problem occurred during the addCategory() method:" +"\t" +e.getMessage());
         }
         finally
         {
@@ -67,8 +69,7 @@ public class CategoryDao extends Dao implements CategoryDaoInterface{
             }
             catch (SQLException e)
             {
-                System.err.println("A problem occurred when closing down the addCategory()" +
-                        " method:\n" + e.getMessage());
+                throw new DaoException("A problem occurred when closing down the addCategory()" + " method:\n" + e.getMessage());
             }
         }
         return newId;
@@ -112,7 +113,7 @@ public class CategoryDao extends Dao implements CategoryDaoInterface{
                 categories.add(c);
             }
         }catch (SQLException e) {
-            System.out.println("Exception occured in the getAllCategory() method: " + e.getMessage());
+            throw new DaoException("Exception occured in the getAllCategory() method: " + e.getMessage());
         } finally {
             try {
                 if (rs != null) {
@@ -125,7 +126,7 @@ public class CategoryDao extends Dao implements CategoryDaoInterface{
                     freeConnection(con);
                 }
             } catch (SQLException e) {
-                System.out.println("Exception occured in the finally section of the getAllCategory() method: " + e.getMessage());
+                throw new DaoException("Exception occured in the finally section of the getAllCategory() method: " + e.getMessage());
             }
         }
 
@@ -160,7 +161,7 @@ public class CategoryDao extends Dao implements CategoryDaoInterface{
                 c = new Category(rs.getInt("id"), rs.getString("category_name"));
             }
         }catch (SQLException e) {
-            System.out.println("Exception occured in the getCategoryById() method: " + e.getMessage());
+            throw new DaoException("Exception occured in the getCategoryById() method: " + e.getMessage() + e.getMessage());
         } finally {
             try {
                 if (rs != null) {
@@ -173,7 +174,7 @@ public class CategoryDao extends Dao implements CategoryDaoInterface{
                     freeConnection(con);
                 }
             } catch (SQLException e) {
-                System.out.println("Exception occured in the finally section of the getCategoryById() method: " + e.getMessage());
+                throw new DaoException("Exception occured in the finally section of the getCategoryById() method: " + e.getMessage());
             }
         }
         return c;
@@ -218,7 +219,7 @@ public class CategoryDao extends Dao implements CategoryDaoInterface{
             }
             catch (SQLException e)
             {
-                throw new DaoException("A problem occurred during the deleteCategory() method:" + e.getMessage());
+                throw new DaoException("A problem occured when closing down the  deleteCategory() method:\n" + e.getMessage());
             }
         }
         return rowsAffected;
