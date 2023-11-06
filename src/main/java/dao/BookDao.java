@@ -5,12 +5,8 @@ import exceptions.DaoException;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
-
-/**
- * @author Mercy
- */
 
 public class BookDao extends Dao implements BookDaoInterface  {
 

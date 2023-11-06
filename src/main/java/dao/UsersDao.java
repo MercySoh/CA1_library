@@ -104,7 +104,7 @@ public class UsersDao extends Dao implements UsersDaoInterface {
                 u = new Users(rs.getInt("id"),
                         rs.getString("name"), rs.getString("email"), rs.getString("username"),
                         rs.getString("password"), rs.getString("phone"), rs.getString("address"),
-                        rs.getString("city"), rs.getString("postcode"), rs.getInt("user-type"), rs.getInt("disable"));
+                        rs.getString("city"), rs.getString("postcode"), rs.getInt("user_type"), rs.getInt("disable"));
             }
         } catch (SQLException e) {
             System.out.println("Exception occurred in the findUserByUserID() method: " + e.getMessage());
