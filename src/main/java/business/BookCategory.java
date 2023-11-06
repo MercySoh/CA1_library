@@ -20,6 +20,13 @@ public class BookCategory {
     private int category_id;
 
     public BookCategory() {
+        this.id = -1;
+    }
+
+    public BookCategory(int book_id, int category_id) {
+        this.id = -1;
+        this.book_id = book_id;
+        this.category_id = category_id;
     }
 
     public BookCategory(int id, int book_id, int category_id) {

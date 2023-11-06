@@ -1,8 +1,6 @@
 package dao;
 
-import business.Book;
 import business.BookCategory;
-import business.Category;
 import exceptions.DaoException;
 
 import java.sql.*;
@@ -15,47 +13,86 @@ public class BookCategoryDao extends Dao implements BookCategoryDaoInterface{
         super(databaseName);
     }
 
+
+    /**
+     * addBookCatergory(with 2args) method allows admin/staff to add book to a new catergory,
+     *
+     * @param bookId an int of book's id to add to category
+     * @param catId an int of category's id to be added in book
+     * @return new bookCategory's id if added else return -1
+     * @throws DaoException if failure
+     */
     @Override
-    public boolean addBookCatergory(BookCategory newBookCategory) throws DaoException {
+    public int addBookCatergory(int bookId, int catId) throws DaoException {
         Connection con = null;
         PreparedStatement ps = null;
-        boolean added = false;
-
+        ResultSet generatedKeys = null;
+        int newId = -1;
         try {
-            con = getConnection();
+            con = this.getConnection();
 
-            String query = "INSERT INTO bookcategory VALUES (?, ?, ?)";
+            String query = "INSERT INTO bookcategory(book_id,category_id) VALUES (?,?)";
 
-            ps = con.prepareStatement(query);
+            ps = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 
-            //ps.setInt(1, newBookCategory.getId());
-            ps.setInt(2, newBookCategory.getBook_id());
-            ps.setInt(3, newBookCategory.getCategory_id());
+            ps.setInt(1, bookId);
+            ps.setInt(2,catId);
 
-            int rowsAffected = ps.executeUpdate();
-            if(rowsAffected > 0){
-                added = true;
-            }
-        }catch(SQLIntegrityConstraintViolationException e){
-            System.out.println("Integrity constraint failed in the addBookCategory() method: " + e.getMessage());
-            added = false;
-        } catch (SQLException e) {
-            System.out.println("Exception occurred in the addBookCategory() method: " + e.getMessage());
-        } finally {
-            try {
-                if (ps != null) {
-                    ps.close();
-                }
-                if (con != null) {
-                    freeConnection(con);
-                }
-            } catch (SQLException e) {
-                System.out.println("Exception occurred in the finally section of the addBookCategory() method: \n\t" +  e.getMessage());
+            ps.executeUpdate();
+
+            generatedKeys = ps.getGeneratedKeys();
+
+            if(generatedKeys.next())
+            {
+                newId = generatedKeys.getInt(1);
             }
         }
-        return added;
+        catch (SQLException e)
+        {
+            throw new DaoException("\tA problem occurred during the addBookCategory() method:" +"\t" +e.getMessage());
+        }
+        finally
+        {
+            try
+            {
+                if(generatedKeys != null){
+                    generatedKeys.close();
+                }
+                if (ps != null)
+                {
+                    ps.close();
+                }
+                if (con != null)
+                {
+                    freeConnection(con);
+                }
+            }
+            catch (SQLException e)
+            {
+                throw new DaoException("A problem occurred when closing down the addBookCategory()" + " method:\n" + e.getMessage());
+            }
+        }
+        return newId;
     }
 
+    /**
+     * addBookCatergory(BookCategory newBookCategory) method allows admin/staff to add a book to category,
+     *
+     * @param newBookCategory the new <code>BookCategory</code> to be added
+     * @return new bookCategory's id if added else return -1
+     * @throws DaoException if failure
+     */
+    @Override
+    public int addBookCatergory(BookCategory newBookCategory) throws DaoException {
+        return addBookCatergory(newBookCategory.getBook_id(),newBookCategory.getCategory_id());
+    }
+
+    /**
+     * getAllBookCategory method return a list of all book in all category in library,
+     *
+     * @return a list of all book in all category in library
+     * @throws DaoException if failure
+     */
     @Override
     public List<BookCategory> getAllBookCategory() throws DaoException {
         Connection con = null;
@@ -76,7 +113,7 @@ public class BookCategoryDao extends Dao implements BookCategoryDaoInterface{
                 bookCategories.add(bc);
             }
         }catch (SQLException e) {
-            System.out.println("Exception occured in the getAllBookCategory() method: " + e.getMessage());
+            throw new DaoException("Exception occured in the getAllBookCategory() method: " + e.getMessage());
         } finally {
             try {
                 if (rs != null) {
@@ -89,12 +126,20 @@ public class BookCategoryDao extends Dao implements BookCategoryDaoInterface{
                     freeConnection(con);
                 }
             } catch (SQLException e) {
-                System.out.println("Exception occured in the finally section of the getAllBookCategory() method: " + e.getMessage());
+                throw new DaoException("Exception occured in the finally section of the getAllBookCategory() method: " + e.getMessage());
             }
         }
 
         return bookCategories;
     }
+
+    /**
+     * getBookCategoryByBookId method return the bookCategory that match the book id,
+     *
+     * @param bookId an int of book's id to find
+     * @return bookCategory that match the book's id else return null if not found
+     * @throws DaoException if failure
+     */
 
     @Override
     public BookCategory getBookCategoryByBookId(int bookId) throws DaoException {
@@ -117,7 +162,7 @@ public class BookCategoryDao extends Dao implements BookCategoryDaoInterface{
                 bc = new BookCategory(rs.getInt("id"), rs.getInt("book_id"), rs.getInt("category_id"));
             }
         }catch (SQLException e) {
-            System.out.println("Exception occured in the getBookCategoryByBookId() method: " + e.getMessage());
+            throw new DaoException("Exception occured in the getBookCategoryByBookId() method: " + e.getMessage());
         } finally {
             try {
                 if (rs != null) {
@@ -130,12 +175,19 @@ public class BookCategoryDao extends Dao implements BookCategoryDaoInterface{
                     freeConnection(con);
                 }
             } catch (SQLException e) {
-                System.out.println("Exception occured in the finally section of the getBookCategoryByBookId() method: " + e.getMessage());
+                throw new DaoException("Exception occured in the finally section of the getBookCategoryByBookId() method: " + e.getMessage());
             }
         }
         return bc;
     }
 
+    /**
+     * getBookCategoryByCategoryId method return the bookCategory that match the category id,
+     *
+     * @param categoryId an int of book's id to find
+     * @return bookCategory that match the category's id else return null if not found
+     * @throws DaoException if failure
+     */
     @Override
     public BookCategory getBookCategoryByCategoryId(int categoryId) throws DaoException {
         Connection con = null;
@@ -157,7 +209,7 @@ public class BookCategoryDao extends Dao implements BookCategoryDaoInterface{
                 bc = new BookCategory(rs.getInt("id"), rs.getInt("book_id"), rs.getInt("category_id"));
             }
         }catch (SQLException e) {
-            System.out.println("Exception occured in the getBookCategoryByCategoryId() method: " + e.getMessage());
+            throw new DaoException("Exception occured in the getBookCategoryByCategoryId() method: " + e.getMessage());
         } finally {
             try {
                 if (rs != null) {
@@ -170,47 +222,56 @@ public class BookCategoryDao extends Dao implements BookCategoryDaoInterface{
                     freeConnection(con);
                 }
             } catch (SQLException e) {
-                System.out.println("Exception occured in the finally section of the getBookCategoryByCategoryId() method: " + e.getMessage());
+                throw new DaoException("Exception occured in the finally section of the getBookCategoryByCategoryId() method: " + e.getMessage());
             }
         }
         return bc;
     }
 
+    /**
+     * deleteBookCategory method delete a bookCategory by book's id from the library.
+     * @param bookId an int of book's id to be deleted.
+     * @return 1 if deleted else return 0.
+     * @throws DaoException if failure
+     */
     @Override
-    public boolean deleteBookCategory(int bookId) throws DaoException {
+    public int deleteBookCategory(int bookId) throws DaoException {
         Connection con = null;
         PreparedStatement ps = null;
-        ResultSet rs = null;
-        boolean deleted = false;
-        try {
-            con = getConnection();
+        int rowsAffected = 0;
 
-            String command = "DELETE FROM bookcategory WHERE book_id = ? ";
-            ps = con.prepareStatement(command);
+        try {
+            con = this.getConnection();
+
+            String query = "DELETE FROM bookcategory WHERE book_id = ?";
+            ps = con.prepareStatement(query);
             ps.setInt(1, bookId);
 
-            int rowsAffected = ps.executeUpdate();
-            if(rowsAffected < 0){
-                deleted = true;
-            }
-
-        } catch (SQLException e) {
-            throw new DaoException("deleteBookCategory: " + e.getMessage());
-        } finally {
-            try {
-                if (rs != null) {
-                    rs.close();
-                }
-                if (ps != null) {
+            rowsAffected = ps.executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            throw new DaoException("A problem occurred during the deleteBookCategory() method:" + e.getMessage());
+        }
+        finally
+        {
+            try
+            {
+                if (ps != null)
+                {
                     ps.close();
                 }
-                if (con != null) {
+                if (con != null)
+                {
                     freeConnection(con);
                 }
-            } catch (SQLException e) {
-                throw new DaoException("deleteBookCategory(): " + e.getMessage());
+            }
+            catch (SQLException e)
+            {
+                throw new DaoException("A problem occured when closing down the deleteBookCategory() method:\n" + e.getMessage());
             }
         }
-        return deleted;
+        return rowsAffected;
     }
+
 }

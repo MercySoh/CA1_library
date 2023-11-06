@@ -184,6 +184,7 @@ public class CategoryDao extends Dao implements CategoryDaoInterface{
      * deleteCategory method delete a category by category's id from the library.
      * @param categoryId an int of category's id to be deleted.
      * @return 1 if deleted else return 0.
+     * @throws DaoException if failure
      */
     @Override
     public int deleteCategory(int categoryId) throws DaoException {
